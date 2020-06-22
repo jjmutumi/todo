@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/services/authentication_service.dart';
-import 'package:todo/services/shared_preferences_authentication_service.dart';
 
 class TodoScreenAppBar extends StatelessWidget {
   const TodoScreenAppBar({

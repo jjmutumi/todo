@@ -3,7 +3,6 @@ import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:todo/models/user.dart';
 import 'package:todo/services/authentication_service.dart';
-import 'package:todo/services/shared_preferences_authentication_service.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
