@@ -28,10 +28,8 @@ class TodoScreenTodoList extends StatelessWidget {
                     duration: Duration(seconds: 2),
                     backgroundColor: Theme.of(context).primaryColor,
                     action: SnackBarAction(
-                      textColor: Theme.of(context).appBarTheme.brightness ==
-                              Brightness.light
-                          ? Colors.black
-                          : Colors.white,
+                      textColor:
+                          Theme.of(context).primaryTextTheme.subtitle1.color,
                       label: "UNDO",
                       onPressed: () => todoRepository.save(todo),
                     ),

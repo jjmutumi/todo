@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:todo/models/todo.dart';
 import 'package:todo/services/todo_repository.dart';
@@ -42,7 +41,7 @@ class _TodoScreenFormState extends State<TodoScreenForm> {
                 ),
               ),
               Card(
-                color: Colors.blue,
+                color: Theme.of(context).primaryColor,
                 margin: EdgeInsets.zero,
                 shape: ContinuousRectangleBorder(),
                 elevation: 0,
@@ -60,7 +59,8 @@ class _TodoScreenFormState extends State<TodoScreenForm> {
                       "ADD",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        color: Colors.white,
+                        color:
+                            Theme.of(context).primaryTextTheme.subtitle1.color,
                         fontSize: 25,
                         fontWeight: FontWeight.bold,
                       ),
