@@ -7,5 +7,7 @@ abstract class TodoRepository extends ChangeNotifier {
 
   Future save(Todo todo);
 
+  Future remove(Todo todo);
+
   Future<List<Todo>> fetch();
 }
