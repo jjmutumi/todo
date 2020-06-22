@@ -12,8 +12,8 @@ class SharedPreferencesAuthenticationService extends AuthenticationService {
     if (userString != null && userString.isNotEmpty) {
       try {
         return User.fromJson(jsonDecode(userString));
-      } catch (err) {
-        print("$err");
+      } catch (err, trace) {
+        print("$err $trace");
       }
     }
     return null;
