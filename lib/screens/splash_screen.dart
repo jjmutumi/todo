@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:todo/models/user.dart';
+import 'package:todo/services/authentication_service.dart';
+import 'package:todo/services/shared_preferences_authentication_service.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -28,6 +31,15 @@ class _SplashScreenState extends State<SplashScreen> {
 
   _waitForIt() async {
     await Future.delayed(Duration(seconds: 2));
-    Navigator.of(context).pushNamed("/login");
+
+    AuthenticationService authenticationService =
+        SharedPreferencesAuthenticationService();
+    User user = await authenticationService.currentUser();
+
+    if (user == null) {
+      Navigator.of(context).pushReplacementNamed("/login");
+    } else {
+      Navigator.of(context).pushReplacementNamed("/todo");
+    }
   }
 }
