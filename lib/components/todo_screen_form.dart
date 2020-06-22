@@ -33,6 +33,7 @@ class _TodoScreenFormState extends State<TodoScreenForm> {
                 child: TextField(
                   controller: controller,
                   style: TextStyle(fontSize: 30),
+                  textCapitalization: TextCapitalization.sentences,
                   decoration: InputDecoration(
                     hintText: "Todo",
                     hintStyle: TextStyle(fontSize: 30),
