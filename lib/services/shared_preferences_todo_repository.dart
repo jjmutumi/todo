@@ -31,6 +31,8 @@ class SharedPreferencesTodoRepository extends TodoRepository {
       todos.add(todo);
     }
 
+    todos.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+
     // save the todos to SharedPreferences
     await (await prefs())
         .setString(_prefKey, jsonEncode(todos.map((e) => e.toJson()).toList()));
@@ -76,6 +78,9 @@ class SharedPreferencesTodoRepository extends TodoRepository {
         for (Map<String, dynamic> item in items) {
           diskTodos.add(Todo.fromJson(item));
         }
+
+        diskTodos.sort((a, b) => a.createdAt.compareTo(b.createdAt));
+
         todos = diskTodos;
       } catch (err, trace) {
         print("$err $trace");
