@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:todo/components/todo_screen_app_bar.dart';
-import 'package:todo/models/todo.dart';
+import 'package:todo/components/todo_screen_form.dart';
+import 'package:todo/components/todo_screen_todo_list.dart';
+import 'package:todo/services/shared_preferences_todo_repository.dart';
+import 'package:todo/services/todo_repository.dart';
 
 class TodoScreen extends StatefulWidget {
   @override
@@ -8,8 +11,17 @@ class TodoScreen extends StatefulWidget {
 }
 
 class _TodoScreenState extends State<TodoScreen> {
-  final todos = List<Todo>();
-  final controller = TextEditingController();
+  TodoRepository todoRepository;
+
+  @override
+  void initState() {
+    super.initState();
+    todoRepository = SharedPreferencesTodoRepository();
+    todoRepository.addListener(() {
+      setState(() {});
+    });
+    todoRepository.fetch();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,78 +30,8 @@ class _TodoScreenState extends State<TodoScreen> {
         body: CustomScrollView(
           slivers: <Widget>[
             TodoScreenAppBar(),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Card(
-                  clipBehavior: Clip.hardEdge,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: TextField(
-                          controller: controller,
-                          style: TextStyle(fontSize: 25),
-                          decoration: InputDecoration(
-                            hintText: "Todo",
-                            hintStyle: TextStyle(fontSize: 25),
-                            border: InputBorder.none,
-                          ),
-                        ),
-                      ),
-                      Card(
-                        color: Colors.blue,
-                        margin: EdgeInsets.zero,
-                        shape: ContinuousRectangleBorder(),
-                        elevation: 0,
-                        child: InkWell(
-                          onTap: () {
-                            if (controller.text.isNotEmpty) {
-                              final todo = Todo(content: controller.text);
-                              setState(() => todos.add(todo));
-                              controller.text = "";
-                            }
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              "ADD",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 25,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SliverList(
-              delegate: SliverChildBuilderDelegate(
-                (context, position) {
-                  final todo = todos[position];
-                  return Card(
-                    child: CheckboxListTile(
-                      key: Key(todo.content),
-                      value: todo.isComplete,
-                      onChanged: (isComplete) {
-                        setState(() => todo.complete(isComplete));
-                      },
-                      title: Text(todo.content),
-                      subtitle: Text("${todo.createdAt}"),
-                    ),
-                  );
-                },
-                childCount: todos.length,
-              ),
-            ),
+            TodoScreenForm(todoRepository: todoRepository),
+            TodoScreenTodoList(todoRepository: todoRepository),
           ],
         ),
       ),
