@@ -22,8 +22,8 @@ class _SplashScreenState extends State<SplashScreen> {
       child: Scaffold(
         body: Center(
             child: Text(
-          "Splash",
-          style: TextStyle(fontSize: 22),
+          "Your Todos",
+          style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
         )),
       ),
     );
