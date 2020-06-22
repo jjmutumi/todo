@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 import 'package:todo/components/login_button.dart';
 import 'package:todo/models/user.dart';
 import 'package:todo/services/authentication_service.dart';
-import 'package:todo/services/shared_preferences_authentication_service.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -16,6 +16,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authenticationService = Provider.of<AuthenticationService>(context);
+
     return SafeArea(
       child: Scaffold(
         body: ListView(
@@ -54,9 +56,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           onPressed: () async {
                             if (_isValid(controller.text)) {
                               final user = User(name: controller.text);
-
-                              AuthenticationService authenticationService =
-                                  SharedPreferencesAuthenticationService();
                               await authenticationService.signIn(user);
 
                               Navigator.of(context)
