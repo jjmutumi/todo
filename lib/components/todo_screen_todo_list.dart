@@ -15,16 +15,50 @@ class TodoScreenTodoList extends StatelessWidget {
       delegate: SliverChildBuilderDelegate(
         (context, position) {
           final todo = todoRepository.todos[position];
-          return Card(
-            child: CheckboxListTile(
-              key: Key(todo.content),
-              value: todo.isComplete,
-              onChanged: (isComplete) {
-                todo.complete(isComplete);
-                todoRepository.save(todo);
+          return Padding(
+            padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+            child: Dismissible(
+              key: Key(todo.id),
+              onDismissed: (direction) {
+                todoRepository.remove(todo);
+
+                Scaffold.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text("Successfully removed: ${todo.content}"),
+                    duration: Duration(seconds: 2),
+                    backgroundColor: Theme.of(context).primaryColor,
+                    action: SnackBarAction(
+                      textColor: Theme.of(context).appBarTheme.brightness ==
+                              Brightness.light
+                          ? Colors.black
+                          : Colors.white,
+                      label: "UNDO",
+                      onPressed: () => todoRepository.save(todo),
+                    ),
+                  ),
+                );
               },
-              title: Text(todo.content),
-              subtitle: Text("${todo.createdAt}"),
+              child: Card(
+                elevation: todo.isComplete ? 0 : null,
+                color: todo.isComplete ? Colors.grey[200] : null,
+                child: CheckboxListTile(
+                  value: todo.isComplete,
+                  onChanged: (isComplete) {
+                    todo.complete(isComplete);
+                    todoRepository.save(todo);
+                  },
+                  title: Text(
+                    todo.content,
+                    style: TextStyle(
+                      fontSize: 26,
+                      decoration: todo.isComplete
+                          ? TextDecoration.lineThrough
+                          : TextDecoration.none,
+                    ),
+                  ),
+                  subtitle: Text("${todo.createdAt}"),
+                ),
+              ),
             ),
           );
         },
