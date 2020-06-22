@@ -1,6 +1,9 @@
+import 'package:flutter/foundation.dart';
 import 'package:todo/models/todo.dart';
 
-abstract class TodoRepository {
+abstract class TodoRepository extends ChangeNotifier {
+  List<Todo> todos = List<Todo>();
+
   Future save(Todo todo);
 
   Future<List<Todo>> fetch();
